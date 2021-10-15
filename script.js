@@ -1,6 +1,12 @@
 'use strict';
 
 //Selecting elements
+
+//We are going to select section 1 and section 2,because we want to change background color for the active player.
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
+
+//We want to select elements for main scores
 const score0El = document.querySelector('#score--0');
 const score1El = document.getElementById('score--1');
 
@@ -22,8 +28,18 @@ score1El.textContent = 0;
 //we added .hidden class to css file and we want now to add this hidden class to .dice class in html file
 diceEl.classList.add('hidden');
 
+//We will stored scores of both players in array
+//This is the reason why we named player 1 as player 0 and player 2 as player 1
+//Because array index starts with 0...
+const scores = [0, 0];
+
 //this is variable for the current score (current score+current dice)
 let currentScore = 0;
+
+//In this variable we will hold the active player.
+//If is currently playing player 1 (player 0)it will be 0.
+//If is currently playing player 2 (player 1)it will be 1.
+let activePlayer = 0;
 
 //we are going to implement here rooling dice functionality
 btnRoll.addEventListener('click', function () {
@@ -43,8 +59,26 @@ btnRoll.addEventListener('click', function () {
     currentScore += dice;
 
     //we just want to display now currentScore, but later we will change this
-    current0El.textContent = currentScore;
+    //current0El.textContent = currentScore;
+
+    //Now we are changing above line of code, because we want to dynamically select an element (current score).
+    //This is also a reason why we used variable activePlayer with values 0 and 1,because we can now use that variable to build class names current--0 and current--0.
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
   } else {
     //switch to next player
+
+    //Before we switch to the next player, we need to set current score of the active player to the 0 (text content).
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+    //We need to set variable currentScore to the 0
+    currentScore = 0;
+
+    //We are goind to use here ternary operator to switch to the next player, actually we are going to set (re-assign) here variable activePlayer
+    activePlayer = activePlayer === 0 ? 1 : 0;
+
+    //Toggle method will remove class player--active if it's there, and if it's not he will add that class.
+    player0El.classList.toggle('player--active');
+    player1El.classList.toggle('player--active');
   }
 });
