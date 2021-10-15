@@ -41,6 +41,10 @@ let currentScore = 0;
 //If is currently playing player 2 (player 1)it will be 1.
 let activePlayer = 0;
 
+//We want to create a variable to hold the state of the game, to know if we are still playing or not.Because we don’t want to be able to click on buttons, even though the game is over.
+//This variable will be boolean and will have true value, because at the beginning of the game of course we are playing.
+let playing = true;
+
 //we are going to create a method for switching player, because we need touse this method 2x.
 const switchPlayer = function () {
   //switch to next player
@@ -61,58 +65,71 @@ const switchPlayer = function () {
 
 //we are going to implement here rooling dice functionality
 btnRoll.addEventListener('click', function () {
-  //1.Generate a random dice number
-  const dice = Math.trunc(Math.random() * 6) + 1;
+  //We just want to be able to click a buttons if the game isn't over.
+  if (playing) {
+    //We want to be able to click on button only
+    //1.Generate a random dice number
+    const dice = Math.trunc(Math.random() * 6) + 1;
 
-  //2.Display dice
-  //removing hidden class
-  diceEl.classList.remove('hidden');
+    //2.Display dice
+    //removing hidden class
+    diceEl.classList.remove('hidden');
 
-  //On this way we dynamically loading one of this 6 pictures
-  diceEl.src = `dice-${dice}.png`;
+    //On this way we dynamically loading one of this 6 pictures
+    diceEl.src = `dice-${dice}.png`;
 
-  //3.Check for rolled 1
-  if (dice !== 1) {
-    //add dice to current score
-    currentScore += dice;
+    //3.Check for rolled 1
+    if (dice !== 1) {
+      //add dice to current score
+      currentScore += dice;
 
-    //we just want to display now currentScore, but later we will change this
-    //current0El.textContent = currentScore;
+      //we just want to display now currentScore, but later we will change this
+      //current0El.textContent = currentScore;
 
-    //Now we are changing above line of code, because we want to dynamically select an element (current score).
-    //This is also a reason why we used variable activePlayer with values 0 and 1,because we can now use that variable to build class names current--0 and current--0.
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
-  } else {
-    //Switch to the next player
-    switchPlayer();
+      //Now we are changing above line of code, because we want to dynamically select an element (current score).
+      //This is also a reason why we used variable activePlayer with values 0 and 1,because we can now use that variable to build class names current--0 and current--0.
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      //Switch to the next player
+      switchPlayer();
+    }
   }
 });
 
 //We are going to implement here hold button functionality
 btnHold.addEventListener('click', function () {
-  //1.We will store main score-TOTAL VALUE in array scores.
-  //Total score is:scores[1]=scores[1]+currentScore;
-  scores[activePlayer] += currentScore;
+  //We just want to be able to click a buttons if the game isn't over.
+  if (playing) {
+    //1.We will store main score-TOTAL VALUE in array scores.
+    //Total score is:scores[1]=scores[1]+currentScore;
+    scores[activePlayer] += currentScore;
 
-  //We want to dynamically select an element score--0 or score--1 and assign it a score of active player
-  document.getElementById(`score--${activePlayer}`).textContent =
-    scores[activePlayer];
+    //We want to dynamically select an element score--0 or score--1 and assign it a score of active player
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
 
-  //2.Check if player's score is >=100
-  //Finish the game
-  if (scores[activePlayer] >= 100) {
-    //FIRST WE NEED TO SELECT ACTIVE PLAYER(section element and class player--0 or player--1) AND WE WANT TO ADD WINNER CLASS TO CHANGE BACKGROUND COLOR OF THE PLAYER WHO WIN.
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add('player--winner');
+    //2.Check if player's score is >=100
+    //Finish the game
+    if (scores[activePlayer] >= 100) {
+      //Here we will re-assign playing variable to false,because the game is over, we have a winner.
+      playing = false;
 
-    //We also want to remove player-active class, because we will have now 2 classes:player--winner and player--active.
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.remove('player--active');
-  } else {
-    //3.Switch to the next player
-    switchPlayer();
+      //We just want to hide the dice if the game is over.
+      diceEl.classList.add('hidden');
+
+      //FIRST WE NEED TO SELECT ACTIVE PLAYER(section element and class player--0 or player--1) AND WE WANT TO ADD WINNER CLASS TO CHANGE BACKGROUND COLOR OF THE PLAYER WHO WIN.
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+
+      //We also want to remove player-active class, because we will have now 2 classes:player--winner and player--active.
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
+    } else {
+      //3.Switch to the next player
+      switchPlayer();
+    }
   }
 });
