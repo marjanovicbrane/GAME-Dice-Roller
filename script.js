@@ -101,7 +101,18 @@ btnHold.addEventListener('click', function () {
 
   //2.Check if player's score is >=100
   //Finish the game
+  if (scores[activePlayer] >= 100) {
+    //FIRST WE NEED TO SELECT ACTIVE PLAYER(section element and class player--0 or player--1) AND WE WANT TO ADD WINNER CLASS TO CHANGE BACKGROUND COLOR OF THE PLAYER WHO WIN.
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
 
-  //3.Switch to the next player
-  switchPlayer();
+    //We also want to remove player-active class, because we will have now 2 classes:player--winner and player--active.
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+  } else {
+    //3.Switch to the next player
+    switchPlayer();
+  }
 });

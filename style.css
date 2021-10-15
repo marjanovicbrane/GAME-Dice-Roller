@@ -157,10 +157,12 @@ main {
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
 }
 
+/* WE WANT TO ADD WINNER CLASS TO CHANGE BACKGROUND COLOR OF THE PLAYER WHO WIN. */
 .player--winner {
   background-color: #2f2f2f;
 }
 
+/* WE ALSO WANT TO CHANGE THE COLOR OF H2 ELEMENT PLAYER 1/2, BECAUSE, FIRST COLOR WAS BLACK AND NOW WHEN WE HAVE BLACK BACKGROUND, WE WANT TO CHANGE THAT COLOR TO PINK */
 .player--winner .name {
   font-weight: 700;
   color: #c7365f;
