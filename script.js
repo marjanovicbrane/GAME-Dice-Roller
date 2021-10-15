@@ -41,6 +41,24 @@ let currentScore = 0;
 //If is currently playing player 2 (player 1)it will be 1.
 let activePlayer = 0;
 
+//we are going to create a method for switching player, because we need touse this method 2x.
+const switchPlayer = function () {
+  //switch to next player
+
+  //Before we switch to the next player, we need to set current score of the active player to the 0 (text content).Need to rest current score in user interface.
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+  //We need to set variable currentScore to the 0 ie. need to reset current score in our program
+  currentScore = 0;
+
+  //We are goind to use here ternary operator to switch to the next player, actually we are going to set (re-assign) here variable activePlayer
+  activePlayer = activePlayer === 0 ? 1 : 0;
+
+  //Toggle method will remove class player--active if it's there, and if it's not he will add that class.
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
+
 //we are going to implement here rooling dice functionality
 btnRoll.addEventListener('click', function () {
   //1.Generate a random dice number
@@ -66,19 +84,24 @@ btnRoll.addEventListener('click', function () {
     document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
   } else {
-    //switch to next player
-
-    //Before we switch to the next player, we need to set current score of the active player to the 0 (text content).
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-
-    //We need to set variable currentScore to the 0
-    currentScore = 0;
-
-    //We are goind to use here ternary operator to switch to the next player, actually we are going to set (re-assign) here variable activePlayer
-    activePlayer = activePlayer === 0 ? 1 : 0;
-
-    //Toggle method will remove class player--active if it's there, and if it's not he will add that class.
-    player0El.classList.toggle('player--active');
-    player1El.classList.toggle('player--active');
+    //Switch to the next player
+    switchPlayer();
   }
+});
+
+//We are going to implement here hold button functionality
+btnHold.addEventListener('click', function () {
+  //1.We will store main score-TOTAL VALUE in array scores.
+  //Total score is:scores[1]=scores[1]+currentScore;
+  scores[activePlayer] += currentScore;
+
+  //We want to dynamically select an element score--0 or score--1 and assign it a score of active player
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+
+  //2.Check if player's score is >=100
+  //Finish the game
+
+  //3.Switch to the next player
+  switchPlayer();
 });
