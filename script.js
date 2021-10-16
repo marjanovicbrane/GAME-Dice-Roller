@@ -22,28 +22,53 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-//setting elements to initial values
-score0El.textContent = 0;
-score1El.textContent = 0;
-//we added .hidden class to css file and we want now to add this hidden class to .dice class in html file
-diceEl.classList.add('hidden');
+//Because this 4 variables:scores,currentScore,activePlater and playnig are not accessible in our Event Listeners for ROOL button and HOLD button.
+//To solve this problem we need to declare these 4 variables outside the function without any values.
+let scores, currentScore, activePlayer, playing;
 
-//We will stored scores of both players in array
-//This is the reason why we named player 1 as player 0 and player 2 as player 1
-//Because array index starts with 0...
-const scores = [0, 0];
+const init = function () {
+  //We need to delete let in all 4 variables, because we want to reassign them in line of code above.
 
-//this is variable for the current score (current score+current dice)
-let currentScore = 0;
+  //We will stored scores of both players in array
+  //This is the reason why we named player 1 as player 0 and player 2 as player 1
+  //Because array index starts with 0...
+  scores = [0, 0];
 
-//In this variable we will hold the active player.
-//If is currently playing player 1 (player 0)it will be 0.
-//If is currently playing player 2 (player 1)it will be 1.
-let activePlayer = 0;
+  //this is variable for the current score (current score+current dice)
+  currentScore = 0;
 
-//We want to create a variable to hold the state of the game, to know if we are still playing or not.Because we don’t want to be able to click on buttons, even though the game is over.
-//This variable will be boolean and will have true value, because at the beginning of the game of course we are playing.
-let playing = true;
+  //In this variable we will hold the active player.
+  //If is currently playing player 1 (player 0)it will be 0.
+  //If is currently playing player 2 (player 1)it will be 1.
+  activePlayer = 0;
+
+  //We want to create a variable to hold the state of the game, to know if we are still playing or not.Because we don’t want to be able to click on buttons, even though the game is over.
+  //This variable will be boolean and will have true value, because at the beginning of the game of course we are playing.
+  playing = true;
+
+  //setting total score elements to 0
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+
+  //setting current score elements to 0
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+
+  //we added .hidden class to css file and we want now to add this hidden class to .dice class in html file
+  diceEl.classList.add('hidden');
+
+  //Because we don't know which player has won the game, we need to remove player--winner class for both elements.
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+
+  //We need to set first player as a active player
+  player0El.classList.add('player--active');
+  //We need to remove player active class from the second elements, because he will never be the first who play the game.
+  player1El.classList.remove('player--active');
+};
+
+//Now we need to call this init method, because we want when we start the game to automatically loads all the initial values.
+init();
 
 //we are going to create a method for switching player, because we need touse this method 2x.
 const switchPlayer = function () {
@@ -133,3 +158,7 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+//We are going to implement here new game button functionality.We are going to make init function, because we have initial values in 2 situations.
+//First when we start the game and second when we press the button new game.We then want to set all initial values.
+btnNew.addEventListener('click', init);
