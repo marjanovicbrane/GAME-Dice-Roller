@@ -25,7 +25,7 @@ On this flowchart you can see all the tasks which we implemented in this game.I 
 
 # What we can learn:
 
-From this game you can learn a lot of staff,  you can learn all fundamentals of HTML , CSS and Java Script.
+From this game you can learn a lot of staff, you can learn all fundamentals of HTML, CSS and Java Script.
 
 You can learn how to use all kind of methods and functions.How to use DOM manipulation, event listeners and buttons, so we can have interactions with our game.You will also learn how to manipulate with CSS styles using Java Script and much more.
 
